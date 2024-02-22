@@ -6,9 +6,7 @@ import React from 'react'
 
 export default function UserNav() {
   const { currentUser } = useAuth()
-  console.log(currentUser)
   return (
-
     <div>
       <Guest>
         <Link href="/login">
