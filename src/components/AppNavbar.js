@@ -2,14 +2,15 @@
 import React from "react";
 import {
     Navbar,
-    MobileNav,
     Typography,
     Button,
     IconButton,
     Card,
+    Collapse,
 } from "@material-tailwind/react";
 import config from "@/config";
 import UserNav from "./User/UserNav";
+import Link from "next/link";
 
 export default function AppNavbar() {
     const [openNav, setOpenNav] = React.useState(false);
@@ -69,13 +70,15 @@ export default function AppNavbar() {
     return (
         <Navbar className="sticky top-0 z-10 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4 mb-5">
             <div className="flex items-center justify-between text-blue-gray-900">
+                <Link href={'/'}>
                 <Typography
                     as="a"
                     href="#"
-                    className="mr-4 cursor-pointer py-1.5 font-medium"
+                    className="mr-4 cursor-pointer py-1.5 font-extrabold"
                 >
                     {config.AppName}
                 </Typography>
+                </Link>
                 <div className="flex items-center gap-4">
                     <div className="mr-4 hidden lg:block">{navList}</div>
                     <div className="flex items-center gap-x-1">
@@ -120,12 +123,12 @@ export default function AppNavbar() {
                     </IconButton>
                 </div>
             </div>
-            <MobileNav open={openNav}>
+            <Collapse open={openNav}>
                 {navList}
                 <div className="flex items-center gap-x-1">
                     <UserNav/>
                 </div>
-            </MobileNav>
+            </Collapse>
         </Navbar>
 
     );

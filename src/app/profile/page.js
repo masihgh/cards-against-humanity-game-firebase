@@ -6,7 +6,7 @@ import React from 'react'
 
 const Profile = () => {
 
-    const { currentUser } = useAuth()
+    const { currentUser,signOut } = useAuth()
     return (
         <section className={"mt-20 flex flex-row justify-center"}>
             <Card className="w-96">
@@ -23,7 +23,7 @@ const Profile = () => {
                     <h1></h1>
                 </CardBody>
                 <CardFooter className="pt-0 gap-3 grid">
-                    <Button color='red'>Logout</Button>
+                    <Button onClick={()=>{signOut()}} color='red'>Logout</Button>
                 </CardFooter>
             </Card>
         </section>

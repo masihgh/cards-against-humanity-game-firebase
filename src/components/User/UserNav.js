@@ -16,13 +16,14 @@ export default function UserNav() {
         </Link>
       </Guest>
       <Auth>
-        <div className="flex flex-row items-center gap-4">
-          <Avatar src={currentUser?.photoURL} alt="avatar" variant="rounded" />
-          <div>
-            <Typography variant="h6">{currentUser?.displayName}</Typography>
-            <Button size='sm' variant='text' color='blue'>Logout</Button>
+        <Link href="/profile">
+          <div className="flex flex-row items-center gap-4">
+            <Avatar src={currentUser?.photoURL} alt="avatar" variant="rounded" />
+            <div>
+              <Typography variant="h6">{currentUser?.displayName}</Typography>
+            </div>
           </div>
-        </div>
+        </Link>
       </Auth>
     </div>
   )

@@ -8,7 +8,7 @@ export default function Home() {
     const {currentUser} = useAuth()
     console.log(currentUser);
     return (
-        <main className="container px-5">
+        <main className="container px-5 min-h-screen">
             <Button>Button</Button>
         </main>
     );
