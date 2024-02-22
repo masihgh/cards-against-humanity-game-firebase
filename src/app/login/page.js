@@ -2,42 +2,18 @@
 import React, { useState } from "react";
 import { Button, Card, CardBody, CardFooter } from "@material-tailwind/react";
 import { Google } from "iconsax-react";
-
-import firebaseApp from '@/firebase/firebase'
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useAuth } from "@/context/AuthContext";
+import { withGuest } from "@/context/authGuard";
 
 function Page() {
     const [loading, setLoading] = useState(false);
 
-    const HandleLogin = () => {
-        setLoading(true)
-        const auth = getAuth(firebaseApp);
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({
-            prompt: "select_account "
-        });
+    const { currentUser, signInWithGoogle } = useAuth(); // Access the current user and login function from the AuthContext
 
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                console.log(user,token);
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
-            });
-    }
+    const HandleLogin = () => {
+      signInWithGoogle();
+      console.log(currentUser);
+    };
 
     return (
         <section className={"mt-20 flex flex-row justify-center"}>
@@ -65,4 +41,4 @@ function Page() {
     );
 }
 
-export default Page;
+export default withGuest(Page);
