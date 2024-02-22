@@ -1,13 +1,13 @@
 // authGuard.js
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
 import { useAuth } from './AuthContext';
+import { useRouter } from 'next/navigation'
 
 // Authentication Guard HOC
 export const withAuth = (WrappedComponent, { redirectTo = '/login', redirectIfFound = false } = {}) => {
   const AuthGuard = (props) => {
-    const router = useRouter();
     const { currentUser } = useAuth();
+    const router = useRouter()
 
     useEffect(() => {
       if (!currentUser) {
@@ -17,7 +17,7 @@ export const withAuth = (WrappedComponent, { redirectTo = '/login', redirectIfFo
         // Redirect to home page if already logged in and trying to access guest-only route
         router.push('/');
       }
-    }, [currentUser, router]);
+    }, [currentUser,router]);
 
     // Render the wrapped component if authenticated, otherwise null
     return currentUser ? <WrappedComponent {...props} /> : null;
@@ -29,15 +29,15 @@ export const withAuth = (WrappedComponent, { redirectTo = '/login', redirectIfFo
 // Guest Guard HOC
 export const withGuest = (WrappedComponent, { redirectTo = '/' } = {}) => {
   const GuestGuard = (props) => {
-    const router = useRouter();
     const { currentUser } = useAuth();
+    const router = useRouter()
 
     useEffect(() => {
       if (currentUser) {
         // Redirect to home page if already logged in and trying to access guest-only route
-        router.push( );
+        router.push(redirectTo);
       }
-    }, [currentUser, router]);
+    }, [currentUser,router]);
 
     // Render the wrapped component if not authenticated (guest), otherwise null
     return currentUser ? null : <WrappedComponent {...props} />;

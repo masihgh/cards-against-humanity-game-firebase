@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+'use client'
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import firebaseApp from "@/firebase/firebase";
+import { Spinner } from "@material-tailwind/react";
 
 const AuthContext = createContext();
 
@@ -8,37 +10,45 @@ export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const signUp = (email, password) => {
-    return firebase.auth().createUserWithEmailAndPassword(email, password);
-  };
-
-  const signIn = (email, password) => {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
-  };
-
-  const signOut = () => {
-    return firebase.auth().signOut();
-  };
-
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    const auth = getAuth(firebaseApp);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
+
+  const signInWithGoogle = async () => {
+    const auth = getAuth(firebaseApp);
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({
+      prompt: "select_account"
+    });
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      setCurrentUser(user);
+    } catch (error) {
+      // Handle login error
+      console.error("Error during login:", error);
+    }
+  };
 
   const value = {
     currentUser,
-    signUp,
-    signIn,
-    signOut,
+    signInWithGoogle,
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? (
+        <>
+        <Spinner className="h-16 w-16 text-gray-900/50" />
+        </>
+      ) : (children)}
     </AuthContext.Provider>
   );
 };
