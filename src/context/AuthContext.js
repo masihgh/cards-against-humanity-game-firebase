@@ -1,6 +1,6 @@
 'use client'
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
 import firebaseApp from "@/firebase/firebase";
 import FullLoadder from "@/components/Loader/FullLoadder";
 
@@ -37,9 +37,21 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const signOutUser = async () => {
+        const auth = getAuth(firebaseApp);
+        try {
+            await signOut(auth);
+            setCurrentUser(null);
+        } catch (error) {
+            // Handle logout error
+            console.error("Error during logout:", error);
+        }
+    };
+
     const value = {
         currentUser,
         signInWithGoogle,
+        signOut: signOutUser, // Add the signOut function to the value
     };
 
     return (
