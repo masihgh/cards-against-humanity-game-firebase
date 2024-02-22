@@ -45,3 +45,15 @@ export const withGuest = (WrappedComponent, { redirectTo = '/' } = {}) => {
 
   return GuestGuard;
 };
+
+export const Auth = ({ children }) => {
+    const { currentUser } = useAuth();
+  
+    return <>{currentUser ? children : null}</>;
+  };
+  
+  export const Guest = ({ children }) => {
+    const { currentUser } = useAuth();
+  
+    return <>{currentUser ? null : children}</>;
+  };

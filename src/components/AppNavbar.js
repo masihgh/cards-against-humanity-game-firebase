@@ -9,6 +9,7 @@ import {
     Card,
 } from "@material-tailwind/react";
 import config from "@/config";
+import UserNav from "./User/UserNav";
 
 export default function AppNavbar() {
     const [openNav, setOpenNav] = React.useState(false);
@@ -78,20 +79,7 @@ export default function AppNavbar() {
                 <div className="flex items-center gap-4">
                     <div className="mr-4 hidden lg:block">{navList}</div>
                     <div className="flex items-center gap-x-1">
-                        <Button
-                            variant="text"
-                            size="sm"
-                            className="hidden lg:inline-block"
-                        >
-                            <span>Log In</span>
-                        </Button>
-                        <Button
-                            variant="gradient"
-                            size="sm"
-                            className="hidden lg:inline-block"
-                        >
-                            <span>Sign in</span>
-                        </Button>
+                        <UserNav/>
                     </div>
                     <IconButton
                         variant="text"
@@ -135,12 +123,7 @@ export default function AppNavbar() {
             <MobileNav open={openNav}>
                 {navList}
                 <div className="flex items-center gap-x-1">
-                    <Button fullWidth variant="text" size="sm" className="">
-                        <span>Log In</span>
-                    </Button>
-                    <Button fullWidth variant="gradient" size="sm" className="">
-                        <span>Sign in</span>
-                    </Button>
+                    <UserNav/>
                 </div>
             </MobileNav>
         </Navbar>
